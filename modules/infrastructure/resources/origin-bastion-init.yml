@@ -10,4 +10,4 @@ runcmd:
  - yum update
  - git clone https://github.com/openshift/openshift-ansible
  - mv openshift-ansible /usr/share/ansible/
- - cd /usr/share/ansible/openshift-ansible && git checkout -b release-${openshift_major_version} origin/release-${openshift_major_version}
+ - cd /usr/share/ansible && git checkout -b release-${openshift_major_version} origin/release-${openshift_major_version}
