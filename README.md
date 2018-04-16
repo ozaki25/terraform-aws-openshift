@@ -1,3 +1,40 @@
+# ozaki memo
+
+## 環境変数
+
+```
+export TF_VAR_platform_name=ozaki25-ocp
+export TF_VAR_platform_default_subdomain=ozaki25-ocp.tech
+export AWS_DEFAULT_REGION=ap-northeast-1
+```
+
+## エラーがでたところ
+
+### countができないとかそんな感じの
+
+- `modules/infrastructure/network.tf`でエラーがでる
+- `length(var.private_subnet_ids)`のようにlengthメソッドを呼ぶとエラーが出ているよう
+- しかたないので数値を直接埋め込んだ
+
+### playbookのエラー
+
+- 以下のようにansibleのコードでエラーが出た
+
+```
+module.openshift_platform.null_resource.openshift (remote-exec): ERROR! the playbook: /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml could not be found
+module.openshift_platform.null_resource.openshift (remote-exec): ERROR! the playbook: /usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml could not be found
+```
+
+- openshift-ansibleのパスを書き換えたら動いた
+    - このパスはbastionサーバ内でのパス
+    - bastionサーバを踏み台にansibleを実行している
+
+```
+modules/infrastructure/resources/openshift-install.sh
+modules/infrastructure/resources/origin-bastion-init.yml
+modules/infrastructure/resources/playbooks/openshift-policies/config.yml
+```
+
 # Terraform OpenShift Container Platform Module
 
 Builds OpenShift reference archtecture on AWS.
